@@ -1,6 +1,4 @@
 import { INestiaConfig } from "@nestia/sdk";
-import { Module } from "@nestjs/common";
-import { NestFactory } from "@nestjs/core";
 
 // import { FastifyAdapter } from "@nestjs/platform-fastify";
 
@@ -15,37 +13,23 @@ export const NESTIA_CONFIG: INestiaConfig = {
    */
   // input: "src/controllers",
   // input: "src/**/*.controller.ts",
-  input: async () => {
-    // change this to your own module
-    @Module({
-      controllers: [],
-    })
-    class MyModule {}
-    const app = await NestFactory.create(MyModule);
-    // const app = await NestFactory.create(YourModule, new FastifyAdapter());
-    // app.setGlobalPrefix("api");
-    // app.enableVersioning({
-    //     type: VersioningType.URI,
-    //     prefix: "v",
-    // })
-    return app;
-  },
+  input: "src/**/broker.controller.ts",
 
   /**
    * Building `swagger.json` is also possible.
    *
    * If not specified, you can't build the `swagger.json`.
    */
-  swagger: {
-    /**
-     * Output path of the `swagger.json`.
-     *
-     * If you've configured only directory, the file name would be the `swagger.json`.
-     * Otherwise you've configured the full path with file name and extension, the
-     * `swagger.json` file would be renamed to it.
-     */
-    output: "dist/swagger.json",
-  },
+  // swagger: {
+  //   /**
+  //    * Output path of the `swagger.json`.
+  //    *
+  //    * If you've configured only directory, the file name would be the `swagger.json`.
+  //    * Otherwise you've configured the full path with file name and extension, the
+  //    * `swagger.json` file would be renamed to it.
+  //    */
+  //   output: "dist/swagger.json",
+  // },
 
   /**
    * Output directory that SDK would be placed in.

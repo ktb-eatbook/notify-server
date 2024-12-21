@@ -1,11 +1,10 @@
 import { 
     Controller, 
-    Res, 
     Req, 
     Sse,
 } from "@nestjs/common";
 import { TypedQuery } from "@nestia/core";
-import { Request, Response } from "express";
+import { Request } from "express";
 
 import { SSESerivce } from "../service/sse.sevice";
 
@@ -27,27 +26,31 @@ export class SSEController {
     @Sse('listen')
     listen(
         @Req() request: Request,
-        @Res() response: Response,
-        @TypedQuery() queryParams: IQueryParam.ListenSSE
+        @TypedQuery() queryParams: QueryParam.ListenSSE
     ) {
         try {
-            request.on('close', () => this.sseService.disconnectListener(queryParams.email))
+            console.log(`${queryParams.email} 유저 연결 요청`)
+            request.on('close', () => {
+                this.sseService.disconnectListener(queryParams.email)
+                console.log(`${queryParams.email} 유저 연결 해제`)
+            })
             const obs = this.sseService.listen(
                 queryParams.id,
                 queryParams.email,
-                response,
             )
             
-            response.send(obs)
+            console.log(`${queryParams.email} 유저 연결 성공`)
+            return obs
         } catch(e) {
-            response.send("null")
+            console.log(`${queryParams.email} 유저 연결 실패`)
+            return null
         }
     }
 }
 
 import { tags } from "typia"
 
-namespace IQueryParam {
+namespace QueryParam {
     export interface ListenSSE {
         readonly id: string & tags.MaxLength<36>
         readonly email: string & tags.Format<"email"> & tags.MaxLength<255>

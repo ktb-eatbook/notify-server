@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
+import * as redisStore from 'cache-manager-ioredis'
+
 import { SSEModule } from './module/sse.module';
 import { CacheModule } from '@nestjs/cache-manager';
-import * as redisStore from 'cache-manager-ioredis'
+import { BrokerModule } from './module/broker.module';
 
 @Module({
   imports: [
     SSEModule,
+    BrokerModule,
     CacheModule.register({
       store: redisStore,
       host: "localhost",

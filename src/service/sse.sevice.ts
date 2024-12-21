@@ -1,5 +1,4 @@
 import { Injectable } from "@nestjs/common";
-import { Response } from "express";
 import { 
     map, 
     Observable, 
@@ -7,7 +6,12 @@ import {
     filter,
 } from "rxjs";
 
-import { IListener, INotifySubject, IToUserNotifySubject } from "../interface";
+import { 
+    IListener, 
+    INotifySubject, 
+    INovelNotifySubject, 
+    IToUserNotifySubject 
+} from "../interface";
 
 @Injectable()
 export class SSESerivce {
@@ -18,14 +22,13 @@ export class SSESerivce {
     listen(
         id: string,
         listener_email: string,
-        response: Response,
     ): Observable<MessageEvent<INotifySubject>> {
         const listener: IListener | undefined = this.listeners.find(listener => listener.id === id)
         // 이미 연결 중이라면 삭제
         if(listener !== undefined) {
             this.listeners = this.listeners.filter(user => user.id === listener.id)
         }
-        this.addListener(id, listener_email, response)
+        this.addListener(id, listener_email)
         
         return this.obs.pipe(
             filter(subject => this.filterFactory(subject, listener_email)),
@@ -41,17 +44,32 @@ export class SSESerivce {
     addListener(
         id: string,
         listener_email: string,
-        response: Response, 
     ) {
         this.listeners.push({
             id,
             email: listener_email,
-            response,
         } satisfies IListener)
     }
 
-    broadcast(subject: INotifySubject) {
-        this.sub.next(subject)
+    broadcast(subject: Omit<INotifySubject, "type">) {
+        this.sub.next({
+            ...subject,
+            type: "all",
+        })
+    }
+
+    toUser(subject: Omit<IToUserNotifySubject, "type">) {
+        this.sub.next({
+            ...subject,
+            type: "to_user",
+        })
+    }
+
+    novel(subject: Omit<INovelNotifySubject, "type">) {
+        this.sub.next({
+            ...subject,
+            type: "novel",
+        })
     }
 
     filterFactory(

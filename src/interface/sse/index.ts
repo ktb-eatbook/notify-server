@@ -1,19 +1,18 @@
 import { tags } from "typia"
-import { Response } from "express"
 
 export interface IListener {
     id: string
     email: string
-    response: Response
 }
 
 export interface INotifySubject {
-    to_user_id: string & tags.MaxLength<36>
+    title: string
     message: string
     type: NotifyType
 }
 
 export interface IToUserNotifySubject extends INotifySubject {
+    to_user_id: string & tags.MaxLength<36>
     to_email: string & tags.Format<"email"> & tags.MaxLength<255>
 }
 
