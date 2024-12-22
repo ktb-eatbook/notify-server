@@ -29,7 +29,7 @@ export class SSESerivce {
             this.listeners = this.listeners.filter(user => user.id === listener.id)
         }
         this.addListener(id, listener_email)
-        
+
         return this.obs.pipe(
             filter(subject => this.filterFactory(subject, listener_email)),
             // MessageEvent는 고정된 형식

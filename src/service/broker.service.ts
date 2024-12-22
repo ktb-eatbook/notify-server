@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 
 import { SSESerivce } from "./sse.sevice";
-import { INotifySubject, IToUserNotifySubject } from "src/interface";
 
 @Injectable()
 export class BrokerService {

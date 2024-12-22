@@ -1,15 +1,14 @@
 import { Module } from "@nestjs/common";
 
 import { BrokerController } from "../controller/broker.controller";
-import { SSESerivce } from "../service/sse.sevice";
 import { BrokerService } from "../service/broker.service";
+import { SSEModule } from "./sse.module";
 
 @Module({
-    imports: [],
+    imports: [SSEModule],
     controllers: [BrokerController],
     providers: [
         BrokerService,
-        SSESerivce,
     ]
 })
 export class BrokerModule {}

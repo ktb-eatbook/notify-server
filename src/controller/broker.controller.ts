@@ -20,6 +20,7 @@ export class BrokerController {
     | typeof ERROR.TooManyRequests
     > {
         try {
+            console.log("Broadcast")
             this.brokerService.broadcast(body.title, body.message)
             return {
                 data: true,
@@ -40,6 +41,7 @@ export class BrokerController {
     | typeof ERROR.TooManyRequests
     > {
         try {
+            console.log(`ToUser: ${body.to_email}`)
             this.brokerService.toUser({
                 title: body.title, 
                 message: body.message,
@@ -65,6 +67,8 @@ export class BrokerController {
     | typeof ERROR.TooManyRequests
     > {
         try {
+            console.log(`Novel id: ${body.novel_id}`)
+            console.log(`Novel title: ${body.novel_title}`)
             this.brokerService.novel({
                 title: body.title, 
                 message: body.message,
