@@ -51,11 +51,12 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USER }}/eatbook-notify:deploy
       - name: Deploy to EC2
-        uses: appleboy/ssh-action@v0.1.3
+        uses: appleboy/ssh-action@master
         with:
           key: ${{ secrets.EC2_SSH_KEY }}
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
+          port: 22
           script: |
                   cd /usr/src/app
 
