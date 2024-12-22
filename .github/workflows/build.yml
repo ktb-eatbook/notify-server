@@ -61,7 +61,6 @@ jobs:
                   cd app
 
                   echo "${{ secrets.ENV_VAL }}" >> .env
-                  echo "${{ secrets.COMPOSE }}" >> compose.yml
 
                   sudo docker system prune -a --volumes -f
                   sudo docker compose build
