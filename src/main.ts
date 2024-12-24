@@ -15,7 +15,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const corsOptions : CorsOptions = {
-    origin: "https://ktb-book-keeper.netlify.app",
+    origin: ["http://localhost:5173","https://ktb-book-keeper.netlify.app"],
     methods: ["POST", "OPTIONS"],
     credentials: false,
     allowedHeaders: ["Authorization", "Content-Type"]
