@@ -45,7 +45,6 @@ export class BrokerController {
             this.brokerService.toUser({
                 title: body.title, 
                 message: body.message,
-                to_user_id: body.to_user_id,
                 to_email: body.to_email,
             })
             return {
@@ -95,7 +94,6 @@ export namespace Body {
     }
 
     export interface IToUser extends IBroadcast {
-        readonly to_user_id: string & tags.MaxLength<36>
         readonly to_email: string & tags.Format<"email"> & tags.MaxLength<255>
     }
 

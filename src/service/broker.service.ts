@@ -21,19 +21,16 @@ export class BrokerService {
     toUser({
         title,
         message,
-        to_user_id,
         to_email,
     }: {
         title: string
         message: string
-        to_user_id: string
         to_email: string
     }) {
         this.sseService.toUser({
             title,
             message,
             to_email,
-            to_user_id,
         })
     }
 

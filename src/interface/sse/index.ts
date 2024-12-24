@@ -12,7 +12,6 @@ export interface INotifySubject {
 }
 
 export interface IToUserNotifySubject extends INotifySubject {
-    to_user_id: string & tags.MaxLength<36>
     to_email: string & tags.Format<"email"> & tags.MaxLength<255>
 }
 
