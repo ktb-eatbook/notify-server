@@ -24,12 +24,14 @@ export class IPGuard implements CanActivate {
         }
 
         // 공유기 접근 시, 실제 아이피 식별을 위한 헤더 추출
-        const forwardedFor = request.headers['x-forwarded-for'] as string
-        const clientIp = (forwardedFor ? forwardedFor.split(',')[0] : (request.ip || request.socket.remoteAddress))?.split("::ffff:")[1]
+        const forwardedFor = request.headers['x-forwarded-for']
+        const clientIp = (forwardedFor ?(Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor.split(',')[0]) : (request.ip || request.socket.remoteAddress))?.split("::ffff:")[1]
+        console.log(forwardedFor)
+        console.log(clientIp)
 
         if(clientIp === undefined) {
             const message = ERROR.Forbidden.message
-            console.log(`요청 아이피가 존재하지 않은 요청`)
+            console.log(`아이피가 존재하지 않은 요청`)
             throw new HttpException(message, HttpStatus.FORBIDDEN)
         }
 
