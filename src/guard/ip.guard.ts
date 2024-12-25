@@ -28,9 +28,8 @@ export class IPGuard implements CanActivate {
         }
         
         const method = request.method
-        // 웹의 요청은 POST 만 허용
+        // 앱, 웹의 요청은 GET, POST 만 허용
         switch(method) {
-            case "GET":
             case "DELETE":
             case "PATCH":
             case "PUT":

@@ -9,12 +9,7 @@ export class BrokerController {
     constructor(
         private readonly brokerService: BrokerService,
     ){}
-
-    @TypedRoute.Get("broadcast")
-    test() {
-        return true
-    }
-
+    
     @TypedRoute.Post('broadcast')
     broadcast(
         @TypedBody() body: Body.IBroadcast
