@@ -23,7 +23,9 @@ export class IPGuard implements CanActivate {
             throw new HttpException(message, HttpStatus.FORBIDDEN)
         }
 
-        const clientIp = (request.ip || request.socket.remoteAddress)?.split("::ffff:")[1]
+        // 공유기 접근 시, 실제 아이피 식별을 위한 헤더 추출
+        const forwardedFor = request.headers['x-forwarded-for'] as string
+        const clientIp = (forwardedFor ? forwardedFor.split(',')[0] : (request.ip || request.socket.remoteAddress))?.split("::ffff:")[1]
 
         if(clientIp === undefined) {
             const message = ERROR.Forbidden.message
