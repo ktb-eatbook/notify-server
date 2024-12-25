@@ -39,10 +39,10 @@ export class IPGuard implements CanActivate {
         // 한국에서 온 요청만 허용
         const geo = geoip.lookup(clientIp)
         if(geo?.country === "KR") {
-            console.log(`허용되지 않은 국가에서의 요청\n아이피:${clientIp}\nGeolocation: ${geo}`)
             return true
         } else {
             const message = ERROR.Forbidden.message
+            console.log(`허용되지 않은 국가에서의 요청\n아이피:${clientIp}\nGeolocation: ${geo}`)
             throw new HttpException(message, HttpStatus.FORBIDDEN)
         }
     }
