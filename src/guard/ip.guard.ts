@@ -25,8 +25,9 @@ export class IPGuard implements CanActivate {
 
         // 공유기 접근 시, 실제 아이피 식별을 위한 헤더 추출
         const forwardedFor = request.headers['x-forwarded-for']
-        const clientIp = (forwardedFor ?(Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor.split(',')[0]) : (request.ip || request.socket.remoteAddress))?.split("::ffff:")[1]
-        console.log(forwardedFor)
+        const routerIp = (Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor?.split(',')[0])
+        const clientIp = routerIp ? routerIp : (request.ip || request.socket.remoteAddress)?.split("::ffff:")[1]
+        console.log(routerIp)
         console.log(clientIp)
 
         if(clientIp === undefined) {
