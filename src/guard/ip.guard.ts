@@ -19,6 +19,7 @@ export class IPGuard implements CanActivate {
         // 웹의 요청은 POST 만 허용
         if(method !== "POST") {
             const message = ERROR.Forbidden.message
+            console.log(`허용되지 않은 메소드 요청: ${method}`)
             throw new HttpException(message, HttpStatus.FORBIDDEN)
         }
 
@@ -26,6 +27,7 @@ export class IPGuard implements CanActivate {
 
         if(clientIp === undefined) {
             const message = ERROR.Forbidden.message
+            console.log(`요청 아이피가 존재하지 않은 요청`)
             throw new HttpException(message, HttpStatus.FORBIDDEN)
         }
 
@@ -37,6 +39,7 @@ export class IPGuard implements CanActivate {
         // 한국에서 온 요청만 허용
         const geo = geoip.lookup(clientIp)
         if(geo?.country === "KR") {
+            console.log(`허용되지 않은 국가에서의 요청\n아이피:${clientIp}\nGeolocation: ${geo}`)
             return true
         } else {
             const message = ERROR.Forbidden.message
@@ -45,4 +48,4 @@ export class IPGuard implements CanActivate {
     }
 }
 
-const localIps = ["localhost","127.0.0.1","0.0.0.0"]
+const localIps = ["localhost","127.0.0.1"]
