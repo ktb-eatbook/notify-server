@@ -14,26 +14,29 @@ import { ERROR } from "../common";
 export class IPGuard implements CanActivate {
     canActivate(context: ExecutionContext): boolean {
         const request = context.switchToHttp().getRequest<Request>();
-        const method = request.method
-
-        // 웹의 요청은 POST 만 허용
-        if(method !== "POST") {
-            const message = ERROR.Forbidden.message
-            console.log(`허용되지 않은 메소드 요청: ${method}`)
-            throw new HttpException(message, HttpStatus.FORBIDDEN)
-        }
-
+        
         // 공유기 접근 시, 실제 아이피 식별을 위한 헤더 추출
         const forwardedFor = request.headers['x-forwarded-for']
         const routerIp = (Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor?.split(',')[0])
+        
         const clientIp = routerIp ? routerIp : (request.ip || request.socket.remoteAddress)?.split("::ffff:")[1]
-        console.log(routerIp)
-        console.log(clientIp)
-
+        
         if(clientIp === undefined) {
-            const message = ERROR.Forbidden.message
             console.log(`아이피가 존재하지 않은 요청`)
+            const message = ERROR.Forbidden.message
             throw new HttpException(message, HttpStatus.FORBIDDEN)
+        }
+        
+        const method = request.method
+        // 웹의 요청은 POST 만 허용
+        switch(method) {
+            case "GET":
+            case "DELETE":
+            case "PATCH":
+            case "PUT":
+                console.log(`허용되지 않은 메소드 요청\n아이피: ${clientIp}\n메소드: ${method}`)
+                const message = ERROR.Forbidden.message
+                throw new HttpException(message, HttpStatus.FORBIDDEN)
         }
 
         // 로컬 접근 허용
@@ -46,8 +49,8 @@ export class IPGuard implements CanActivate {
         if(geo?.country === "KR") {
             return true
         } else {
-            const message = ERROR.Forbidden.message
             console.log(`허용되지 않은 국가에서의 요청\n아이피:${clientIp}\nGeolocation: ${geo}`)
+            const message = ERROR.Forbidden.message
             throw new HttpException(message, HttpStatus.FORBIDDEN)
         }
     }
