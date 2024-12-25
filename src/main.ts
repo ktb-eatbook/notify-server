@@ -1,10 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
+import { Logger } from '@nestjs/common';
 
 import { AppModule } from './app.module';
+import { IPGuard } from './guard';
 
 import * as dotenv from "dotenv"
-import { Logger } from '@nestjs/common';
 dotenv.config()
 
 const logger: Logger = new Logger("Bootstrap")
@@ -22,6 +23,8 @@ async function bootstrap() {
   }
 
   app.enableCors(corsOptions)
+
+  app.useGlobalGuards(new IPGuard())
 
   await app.listen(port)
   .then(_=> {
