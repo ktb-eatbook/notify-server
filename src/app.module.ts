@@ -4,7 +4,6 @@ import * as redisStore from 'cache-manager-ioredis'
 
 import { SSEModule } from './module/sse.module';
 import { BrokerModule } from './module/broker.module';
-import { SSESerivce } from './service/sse.sevice';
 
 @Module({
   imports: [
