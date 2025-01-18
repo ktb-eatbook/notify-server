@@ -4,13 +4,11 @@ import { Logger } from '@nestjs/common';
 
 import { AppModule } from './app.module';
 import { IPGuard } from './guard';
-
-import * as dotenv from "dotenv"
-dotenv.config()
+import { serverConfigs } from './common/config';
 
 const logger: Logger = new Logger("Bootstrap")
 
-const port = parseInt(process.env.SERVER_PORT ?? "3000")
+const port = parseInt(serverConfigs.serverPort ?? "3000")
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

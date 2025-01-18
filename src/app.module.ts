@@ -4,11 +4,13 @@ import * as redisStore from 'cache-manager-ioredis'
 
 import { SSEModule } from './module/sse.module';
 import { BrokerModule } from './module/broker.module';
+import { MailModule } from './module/mail.module';
 
 @Module({
   imports: [
     SSEModule,
     BrokerModule,
+    MailModule,
     CacheModule.register({
       store: redisStore,
       host: "localhost",

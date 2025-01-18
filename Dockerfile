@@ -9,7 +9,7 @@ RUN apk update && \
         nano \
         curl \
         git \
-        redis \
+        # redis \
         gettext \
         alpine-conf && \
     apk add --no-cache --virtual .build-deps \
