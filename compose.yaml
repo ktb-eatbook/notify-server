@@ -1,11 +1,38 @@
-version: "3"
+networks:
+  proxy:
+    driver: bridge
+
 services:
-  server:
-    container_name: notify-server
-    image: ${DOCKER_HUB_REPO}/eatbook-notify:deploy
+  proxy:
+    container_name: notify-proxy
+    image: nginx
+    restart: always
+    # 서버 컨테이너에도 추가 필요
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/nginx_status"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     ports:
-      - 3001:3001
-      - 6379:6379
+      - "80:80/tcp"
+      - "443:443"
+    volumes:
+      - ./nestjs.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - proxy
+    environment:
+      - TZ=Asia/Seoul
+    depends_on:
+      - server
+  server:
+    build: .
+    # image: ${DOCKER_HUB_REPO}/eatbook-notify:deploy
+    deploy:
+      replicas: 3
+    expose:
+      - "3001"
+      - "6379"
     environment:
       - SERVER_PORT=${SERVER_PORT}
     entrypoint: ["sh", "-c"]
@@ -21,3 +48,5 @@ services:
         sleep 5 && 
         npm run start:prod &&
         tail -f /dev/null
+    networks:
+      - proxy
