@@ -9,6 +9,7 @@ import { Request } from "express"
 import * as geoip from 'geoip-lite';
 
 import { ERROR } from "../common";
+import { serverConfigs } from "../common/config";
 
 @Injectable()
 export class IPGuard implements CanActivate {
@@ -55,4 +56,4 @@ export class IPGuard implements CanActivate {
     }
 }
 
-const localIps = ["localhost","127.0.0.1"]
+const localIps = ["localhost","127.0.0.1",serverConfigs.localhost]

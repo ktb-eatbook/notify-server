@@ -5,6 +5,7 @@ import { Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { IPGuard } from './guard';
 import { serverConfigs } from './common/config';
+import { ValidationExceptionFilter } from './filter/validation.filter';
 
 const logger: Logger = new Logger("Bootstrap")
 
@@ -23,6 +24,7 @@ async function bootstrap() {
   app.enableCors(corsOptions)
 
   app.useGlobalGuards(new IPGuard())
+  app.useGlobalFilters(new ValidationExceptionFilter())
 
   await app.listen(port)
   .then(_=> {

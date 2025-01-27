@@ -49,9 +49,12 @@ export class MailController {
     ) {
         try {
             const result = await this.mailService.sendReminderEmail({
-                novel: body.novel,
-                snapshots: body.snapshots,
-                createdAt: body.createdAt,
+                reason: body.reason,
+                responsiblePerson: body.responsiblePerson,
+                responsiblePersonEmail: body.responsiblePersonEmail,
+                toEmails: body.toEmails,
+                status: body.status,
+                createdAt: new Date(body.createdAt),
             })
             response.json({
                 status: 201,
@@ -75,26 +78,15 @@ export namespace Body {
         title: string & tags.MaxLength<200>
         description: string & tags.MaxLength<200>
         ref: string & tags.Format<"url">
-        createdAt: Date
+        createdAt: string
     }
 
     export interface IStatusMailArgs {
-        novel: IReminderNovel
-        snapshots: INovelStatusSnapshot[]
-        createdAt: Date
-    }
-
-    interface IReminderNovel {
-        title: string & tags.MaxLength<200>
-        description: string & tags.MaxLength<200>
-        ref: string & tags.Format<"url">
-        novelCreatedAt: Date
-    }
-
-    interface INovelStatusSnapshot {
         responsiblePerson: string
         responsiblePersonEmail: string & tags.Format<"email">
+        toEmails: Array<string & tags.Format<"email">>
         status: NovelStatus
         reason: string & tags.MaxLength<300>
+        createdAt: string
     }
 }
