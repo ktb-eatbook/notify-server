@@ -78,7 +78,7 @@ export namespace Body {
         title: string & tags.MaxLength<200>
         description: string & tags.MaxLength<200>
         ref: string & tags.Format<"url">
-        createdAt: string
+        createdAt: string | Date
     }
 
     export interface IStatusMailArgs {
@@ -87,6 +87,6 @@ export namespace Body {
         toEmails: Array<string & tags.Format<"email">>
         status: NovelStatus
         reason: string & tags.MaxLength<300>
-        createdAt: string
+        createdAt: string | Date
     }
 }

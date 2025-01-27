@@ -1,22 +1,16 @@
 import { Module } from '@nestjs/common';
-import { CacheModule } from '@nestjs/cache-manager';
-import * as redisStore from 'cache-manager-ioredis'
 
 import { SSEModule } from './module/sse.module';
 import { BrokerModule } from './module/broker.module';
 import { MailModule } from './module/mail.module';
+import { HelperModule } from './module/helper.module';
 
 @Module({
   imports: [
     SSEModule,
     BrokerModule,
     MailModule,
-    CacheModule.register({
-      store: redisStore,
-      host: "localhost",
-      port: 6379, // 고정임
-      isGlobal: true, // 전역적으로 쓸꺼임?
-    })
+    HelperModule,
   ]
 })
 export class AppModule {}
