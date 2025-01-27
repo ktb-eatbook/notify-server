@@ -1,3 +1,5 @@
+# Nginx가 포함 된 Flow
+# 사용되지 않기에 주석처리
 # networks:
 #   proxy:
 #     driver: bridge
