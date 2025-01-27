@@ -56,4 +56,5 @@ export class IPGuard implements CanActivate {
     }
 }
 
-const localIps = ["localhost","127.0.0.1",serverConfigs.localhost]
+/// 이 부분 whitelist 처리로 변경
+const localIps = ["localhost","127.0.0.1",serverConfigs.localhost, serverConfigs.communityServerUrl]

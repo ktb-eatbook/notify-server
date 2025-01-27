@@ -9,7 +9,7 @@ import { ValidationExceptionFilter } from './filter/validation.filter';
 
 const logger: Logger = new Logger("Bootstrap")
 
-const port = parseInt(serverConfigs.serverPort ?? "3000")
+const port = parseInt(serverConfigs.serverPort ?? "3001")
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
