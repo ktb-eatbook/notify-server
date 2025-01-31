@@ -7,12 +7,12 @@
 import type { IConnection } from "@nestia/fetcher";
 import { PlainFetcher } from "@nestia/fetcher/lib/PlainFetcher";
 import type { Resolved, Primitive } from "typia";
+import { Body } from "../index"
 
 import type {
   TryCatch,
   FailedResponse,
 } from "../../../../common/exception/index";
-import type { Body } from "../../../../controller/broker.controller";
 
 /**
  * @controller BrokerController.toUser

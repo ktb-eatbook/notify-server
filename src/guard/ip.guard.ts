@@ -9,7 +9,7 @@ import { Request } from "express"
 import * as geoip from 'geoip-lite';
 
 import { ERROR } from "../common";
-import { serverConfigs } from "../common/config";
+import { allowIps } from "../common/config";
 
 @Injectable()
 export class IPGuard implements CanActivate {
@@ -38,9 +38,9 @@ export class IPGuard implements CanActivate {
                 const message = ERROR.Forbidden.message
                 throw new HttpException(message, HttpStatus.FORBIDDEN)
         }
-
-        // 로컬 접근 허용
-        if(localIps.includes(clientIp)) {
+        
+        // whitelist에 등록 된 IP는 bypass
+        if(allowIps.includes(clientIp)) {
             return true
         }
 
@@ -55,6 +55,3 @@ export class IPGuard implements CanActivate {
         }
     }
 }
-
-/// 이 부분 whitelist 처리로 변경
-const localIps = ["localhost","127.0.0.1",serverConfigs.localhost, serverConfigs.communityServerUrl]

@@ -60,3 +60,4 @@ api
 src/api
 .conf
 *.conf
+whitelist.txt

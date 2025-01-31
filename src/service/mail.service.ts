@@ -123,7 +123,7 @@ export class MailService {
     ): string {
         const keys = Object.keys(args)
         for(let i=0; i<keys.length; ++i) {
-        templete = templete.replaceAll(`{${keys[i]}}`, `${args[keys[i]]}`)
+            templete = templete.replaceAll(`{${keys[i]}}`, `${args[keys[i]]}`)
         }
         return templete
     }
@@ -152,9 +152,10 @@ export interface IStatusMailArgs extends MailArgs {
 export interface IHelpMailArgs extends MailArgs {
     title: string
     text: string
+    requester: string
     requesterId: string
     requesterEmail: string
-    discord: string
+    discord?: string
     createdAt: Date
 }
 
