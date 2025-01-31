@@ -9,7 +9,6 @@ import { PlainFetcher } from "@nestia/fetcher/lib/PlainFetcher";
 import type { Resolved, Primitive } from "typia";
 
 import type { TryCatch, FailedResponse } from "../../../common/exception/index";
-import type { Body } from "../../../controller/broker.controller";
 
 export * as touser from "./touser";
 
@@ -103,4 +102,27 @@ export namespace novel {
   } as const;
 
   export const path = () => "/broker/novel";
+}
+
+import { tags } from "typia"
+
+export namespace Body {
+    export interface IBroadcast {
+        readonly message: string
+        readonly title: string
+    }
+
+    export interface IToUser extends IBroadcast {
+        readonly to_email: string & tags.Format<"email"> & tags.MaxLength<255>
+    }
+
+    export interface INovel extends IBroadcast {
+        readonly novel_id: string & tags.MaxLength<36>
+        readonly novel_title: string
+        readonly summary: string
+    }
+
+    export interface IEvent extends IBroadcast {
+
+    }
 }

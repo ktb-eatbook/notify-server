@@ -13,7 +13,11 @@ export const NESTIA_CONFIG: INestiaConfig = {
    */
   // input: "src/controllers",
   // input: "src/**/*.controller.ts",
-  input: "src/**/broker.controller.ts",
+  input: [
+    "src/**/broker.controller.ts",
+    "src/**/mail.controller.ts",
+    "src/**/helper.controller.ts",
+  ],
 
   /**
    * Building `swagger.json` is also possible.

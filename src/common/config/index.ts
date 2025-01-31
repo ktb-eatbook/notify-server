@@ -1,4 +1,5 @@
 import * as dotenv from "dotenv"
+
 dotenv.config()
 
 export const serverConfigs = {
@@ -9,6 +10,12 @@ export const serverConfigs = {
     host: process.env.GOOGLE_AUTH_HOST,
     discordWebhook: process.env.DISCORD_WEBHOOK,
     discordFoxIcon: process.env.DISCORD_FOX_ICON,
-    communityServerUrl: process.env.COMMUNITY_SEVER_URL,
-    localhost: process.env.LOCAL_HOST,
 }
+
+import * as fs from "fs"
+import * as path from "path"
+
+const whiteListPath = path.join(__dirname, "../../../../whitelist.txt")
+const listDatas = fs.readFileSync(whiteListPath, 'utf-8').split("\r\n")
+
+export const allowIps: string[] = listDatas

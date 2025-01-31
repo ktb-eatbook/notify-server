@@ -15,28 +15,27 @@ export class HelperService {
 
     public sendHelpEmailWithDiscord(args: Omit<IHelpMailArgs, "discord">): void {
         // 관리 이메일에 알림 메일 전송
-        this.mailService.sendHelperEmail({
-            ...args,
-            discord: this.webhookUrl,
-        })
+        this.mailService.sendHelperEmail(args)
         // 디스코드 채널에 알림 전송
         this.sendDiscordNotify(args)
     }
 
     private async sendDiscordNotify(args: Omit<IHelpMailArgs, "discord">): Promise<void> {
-        const payloads = [
-            this.packedFox(),
-            this.packedHelpDetail(
-                args.title,
-                args.text,
-                args.createdAt,
-            ),
-            this.packedRequesterDetail(
-                args.requesterId,
-                args.requesterEmail,
-            ),
-            this.packedBookeeperLink()
-        ]
+        const payloads = {
+            "embeds": [
+                this.packedTitle(),
+                this.packedHelpDetail(
+                    args.title,
+                    args.text,
+                    args.createdAt,
+                ),
+                this.packedRequesterDetail(
+                    args.requesterId,
+                    args.requesterEmail,
+                ),
+                this.packedBookeeperLink()
+            ]
+        }
 
         await fetch(this.webhookUrl, {
             method: "POST",
@@ -51,14 +50,9 @@ export class HelperService {
         })
     }
 
-    private packedFox(): IDiscordEmbed {
+    private packedTitle(): IDiscordEmbed {
         return {
-            author: {
-                name: "량",
-                url: "https://ktb-book-keeper.netlify.app",
-                icon_url: serverConfigs.discordFoxIcon!,
-            },
-            description: "문의사항이 도착했어요!"
+            title: "문의사항이 도착했어요!"
         }
     }
 
@@ -68,9 +62,9 @@ export class HelperService {
         createdAt: Date,
     ): IDiscordEmbed {
         return {
-            title,
-            description,
-            timestamp: createdAt.toString(),
+            title: `제목: ${title}`,
+            description: `문의내용: ${description}`,
+            timestamp: createdAt,
         }
     }
 
@@ -104,7 +98,7 @@ interface IDiscordEmbed {
     image?: IDiscordImage
     thumbnail?: IDiscordThumbnail
     footer?: IDiscordFooter
-    timestamp?: string
+    timestamp?: Date
 }
 
 interface IDiscordAuthor {

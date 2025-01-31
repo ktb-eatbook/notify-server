@@ -20,12 +20,17 @@ export class HelperController {
             this.helperService.sendHelpEmailWithDiscord({
                 text: body.text,
                 title: body.title,
+                requester: body.requester,
                 requesterEmail: body.requesterEmail,
                 requesterId: body.requesterId,
-                createdAt: new Date(body.createdAt),
+                createdAt: new Date(Date.now()),
             })
             
-            response.json(true)
+            response.json({
+                data: true,
+                message: "",
+                statusCode: 201,
+            })
         } catch(e) {
             response.json(ERROR.BadRequest)
         }
@@ -36,10 +41,10 @@ import { tags } from "typia"
 
 export namespace Body {
     export interface ISendHelpArgs {
+        requester: string
         requesterId: string & tags.MaxLength<38>
         requesterEmail: string & tags.Format<"email">
         title: string & tags.MaxLength<200>
         text: string
-        createdAt: string | Date
     }
 }
