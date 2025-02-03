@@ -1,8 +1,9 @@
-import { Controller } from "@nestjs/common";
+import { Controller, UseGuards } from "@nestjs/common";
 import { TypedBody, TypedRoute } from "@nestia/core";
 
 import { BrokerService } from "../service/broker.service";
 import { ERROR, TryCatch } from "../common";
+import { RoleGuard } from "../guard/role.guard";
 
 @Controller('broker')
 export class BrokerController {
@@ -11,6 +12,7 @@ export class BrokerController {
     ){}
     
     @TypedRoute.Post('broadcast')
+    @UseGuards(new RoleGuard(["ADMIN"]))
     broadcast(
         @TypedBody() body: Body.IBroadcast
     ): TryCatch<
@@ -32,6 +34,7 @@ export class BrokerController {
     }
 
     @TypedRoute.Post('touser')
+    @UseGuards(new RoleGuard(["ADMIN"]))
     toUser(
         @TypedBody() body: Body.IToUser
     ): TryCatch<
@@ -57,6 +60,7 @@ export class BrokerController {
     }
 
     @TypedRoute.Post('novel')
+    @UseGuards(new RoleGuard(["ADMIN"]))
     novel(
         @TypedBody() body: Body.INovel
     ): TryCatch<

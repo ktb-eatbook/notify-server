@@ -10,6 +10,7 @@ export const serverConfigs = {
     host: process.env.GOOGLE_AUTH_HOST,
     discordWebhook: process.env.DISCORD_WEBHOOK,
     discordFoxIcon: process.env.DISCORD_FOX_ICON,
+    bookKeeperUrl: process.env.BOOK_KEEPER_URL,
 }
 
 import * as fs from "fs"
