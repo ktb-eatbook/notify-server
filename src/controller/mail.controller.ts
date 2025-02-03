@@ -1,4 +1,4 @@
-import { Controller, Res } from "@nestjs/common";
+import { Controller, Res, UseGuards } from "@nestjs/common";
 import { TypedBody, TypedRoute } from "@nestia/core";
 import { Response } from "express";
 import { tags } from "typia"
@@ -7,6 +7,7 @@ import {
     MailService, 
     NovelStatus 
 } from "../service/mail.service";
+import { RoleGuard } from "src/guard/role.guard";
 
 @Controller("mail")
 export class MailController {
@@ -15,6 +16,7 @@ export class MailController {
     ){}
 
     @TypedRoute.Post("alert")
+    @UseGuards(new RoleGuard(["ADMIN"]))
     public async sendAlert(
         @TypedBody() body: Body.IAlertMailArgs,
         @Res() response: Response
@@ -43,6 +45,7 @@ export class MailController {
     }
 
     @TypedRoute.Post("reminder")
+    @UseGuards(new RoleGuard(["ADMIN"]))
     public async sendReminder(
         @TypedBody() body: Body.IStatusMailArgs,
         @Res() response: Response
