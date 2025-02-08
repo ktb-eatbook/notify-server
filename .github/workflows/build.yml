@@ -50,20 +50,20 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USER }}/eatbook-notify:deploy
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@master
-        with:
-          key: ${{ secrets.EC2_SSH_KEY }}
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          port: 22
-          script: |
-                  cd app
+      # - name: Deploy to EC2
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     key: ${{ secrets.EC2_SSH_KEY }}
+      #     host: ${{ secrets.EC2_HOST }}
+      #     username: ${{ secrets.EC2_USER }}
+      #     port: 22
+      #     script: |
+      #             cd app
 
-                  sudo docker compose down
+      #             sudo docker compose down
 
-                  sudo docker system prune -a --volumes -f
+      #             sudo docker system prune -a --volumes -f
                   
-                  sudo docker compose build
-                  sudo docker compose up -d
+      #             sudo docker compose build
+      #             sudo docker compose up -d
                    
