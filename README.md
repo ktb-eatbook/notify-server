@@ -9,6 +9,10 @@
 
 (릴리즈 노트 이동하기)[https://github.com/rkdalsdl98/eatbook-releasenote]
 
+>env 파일과 compose 파일을 CI 과정에서 추가해주어야 합니다. 관련 내용은 노션에 정리해두었습니다.  
+[노션 이동하기](https://www.notion.so/cjm-0611/Community-e8a42d78096948079ff8c41d494ffd32)
+
+
 ## 업데이트  
 + 일정한 시간동안 연속적인 요청을 할 경우 차단합니다  
 + 한국을 제외한 요청은 모두 무시 됩니다  
